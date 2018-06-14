@@ -18,25 +18,26 @@
         <tbody>
             <tr>
                 <td>Dom (BlazorUtils.Dom)</td>
-                <td>0.2</td>
+                <td>0.2.2</td>
                 <td>
                     Accessing and modifying DOM elements in the friendly jQuery style.<br />
                     Please Note that Dom will also include some useful Blazor components in the future.
                 </td>
                 <td>
                     BlazorUtils.js: >= 0.1<br />
-                    Interface: >= 0.2 with ver 0.1, 0.2<br />
+                    Interface: >= 0.2 with ver 0.1, 0.2, 0.2.1, >= 0.2.1 with ver 0.2.2<br />
                     Others: jQuery version: 3.3.1 (Js file only), jQuery UI 1.12.1 (js file and jquery-ui.css), Twitter Bootstrap 4 (css and bundle)
                 </td>
             </tr>
             <tr>
                 <td>Cookie (BlazorUtils.Cookie)</td>
-                <td>0.1</td>
+                <td>0.2.1</td>
                 <td>
                     Managing cookies in Blazor.
                 </td>
                 <td>
-                    BlazorUtils.js: >= 0.1
+                    BlazorUtils.js: >= 0.1<br />
+                    Interface: >= 0.2 with ver 0.1, 0.2, >= 0.2.1 with ver 0.2.1
                 </td>
             </tr>
         </tbody>
@@ -81,7 +82,7 @@
     </ol>
 
     <h2>III. APIs in action!</h2>
-    <p>We can separate features into 4 groups:</p>
+    <p>We can separate features into 5 groups:</p>
     <h3>1. Behaviours attributes</h3>
     <p>Behaviours attributes change element's behaviours (draggable, resizable, readonly,...) without touching Js or C# codes</p>
     <p>Below is an image with lmt-drag and lmt-tip:</p>
@@ -159,13 +160,58 @@
             </tr>
         </tbody>
     </table>
+    <br/>
+    <h3>2. Blazor components</h3>
+    <p>Some components are so popular that not many of us like to rewrite its' logical code again and again. I'm planning to make Bootstrap 4 components into something better, smarter for Blazor.</p>
+    <p>LMT Blazor Utils components are named LMT_ComponentName. You can see them in BlazorComponents folder in your project. DO NOT CHANGE ANYTHING RELATED TO THIS FOLDER! Your actions could crash Visual Studio.</p>
+    <p>I've completed a component for testing. It's a pagination that can basicly interact with user without much codes. There will be more in the future!</p>
+    <LMTPagination cur=@CurPage firstText="Go first" previousText="<" nextText=">" lastText="Go last" total="20" show="6" onpagechange=@OnPageChangeHandler />
+    <label>@PageMsg</label>
+    <p>My EventArgs also supports preventing default result by calling e.PreventDefault() ! Awesome, right?</p>
+    <br/>
+    <h3>3. Pure Js</h3>
+    <p>Blazor dev team has promised that they will provide native global DOM objects to you shortly. As a result, I won't focus on pure Js functions. Right now, Eval(), which execute Js script, is the only method you could use.</p>
+    <textarea lmt-tip="Enter Js script here" id="JsTextArea"></textarea><br/>
+    <button onclick=@(() => { Eval(_("#JsTextArea").Val()); })>Run code!</button>
+    <br/>
+    <h3>4. jQuery</h3>
+    <p>jQuery is really useful, despite the growth of other libraries and frameworks. It would be great if you could create animations, changing styles with the same old jQuery style.</p>
+    <p>In case you didn't know, all of the style in this page were set by the Js library, and Blazor Utils acted like a connector, attaching Blazor to jQuery. While coding, the only thing worth remembering is "_" method, which is the same as "$" in jQuery. Now, please take a look at OnAfterRenderAsync().</p>
+    <br/>
+    <h3>5. Cookies</h3>
+    <p>Set cookies is very quick with LMT Blazor Utils. I put some lines of code that set cookie and session, then write to console when pagination changed.</p>
+    <br/>
+    <h2>IV. Ending</h2>
+    <p>I hope you enjoyed like I did. Honestly, I've learnt Blazor for nearly a month, and I'm neither an Blazor expert. Nevertheless, solving problems is my hobby. Please do not hesitate to send questions to my <a href="https://www.facebook.com/roggertanvus">Facebook</a> or email (leminhtanvatc@gmail.com)</p>
 </div>
-<LMTPagination />
 
 @functions{
-    protected override Task OnAfterRenderAsync()
+    private bool IsSetCss = false;
+    private int CurPage = 1;
+    private string PageMsg = "You haven't changed page yet";
+
+    protected override async Task OnAfterRenderAsync()
     {
+        if (IsSetCss) return;
         LMTBehaviours();
+
+        #region Below in jQuery:
+        //$("body").css("padding", "0 220px 0 220px");
+
+        //$(".Index table *").css("border-style", "solid")
+        //    .css("border-width", "1px")
+        //    .css("border-color", "gray");
+
+        //$(".Index table thead").css("text-align", "center")
+        //    .css("font-weight", "bold");
+
+        //$(".Index table thead td").css("padding", "0 10px 0 10px");
+        //$(".Index p, .Index table").css("font-size", "19px");
+
+        //$("#JsTextArea").css("width", "500px")
+        //    .css("height", "200px");
+        #endregion
+
         _("body").Css("padding", "0 220px 0 220px");
 
         _(".Index table *").Css("border-style", "solid")
@@ -176,8 +222,30 @@
             .Css("font-weight", "bold");
 
         _(".Index table thead td").Css("padding", "0 10px 0 10px");
-        _(".Index p").Css("font-size", "19px");
+        _(".Index p, .Index table").Css("font-size", "19px");
 
-        return base.OnAfterRenderAsync();
+        _("#JsTextArea").Css("width", "500px")
+            .Css("height", "200px");
+
+        IsSetCss = true;
+    }
+
+    void OnPageChangeHandler(LMTPageChangedEventArgs e)
+    {
+        PageMsg = $"You have change to page {e.Next} from page {e.Cur}!";
+        CurPage = e.Next;
+
+        //Set cookie
+        SetCookie(new BlazorUtils.Interfaces.Cookie.Cookie("curPage", e.Cur.ToString(), 5, "/"));
+
+        //Set session (days expire = 0 or default parameter)
+        SetCookie(new BlazorUtils.Interfaces.Cookie.Cookie("nextPage", e.Next.ToString()));
+
+        //Read it!
+        Console.WriteLine(GetCookie("curPage").Value);
+        Console.WriteLine(GetCookie("nextPage").Value);
+
+        StateHasChanged();
+        //e.PreventDefault();
     }
 }
