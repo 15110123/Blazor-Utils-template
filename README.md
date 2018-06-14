@@ -1,2 +1,4 @@
-# Blazor-Utils-template (not done)
-Start a new Blazor project with Blazor Utils.
+# Blazor-Utils-template
+This is the template for creating new Blazor project using LMT Blazor Utils.
+
+More about my library: https://github.com/15110123/Blazor-Utils
