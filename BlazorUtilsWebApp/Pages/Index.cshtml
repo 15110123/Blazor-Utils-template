@@ -1,0 +1,183 @@
+﻿@page "/"
+
+
+<div class="Index">
+    <h1 class="header">Welcome to your very new project of Blazor Utils</h1>
+    <h2>I. What is Blazor Utils actually?</h2>
+    <p>Well, I cannot defined this library in details. Overall, It contains things you need when working with Blazor projects. You may find it much more easy to use Blazor Utils in your app.</p>
+    <p>Currently, I've created 2 sub-libs in Blazor Utils family: </p>
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Current version</td>
+                <td>Description</td>
+                <td>Dependencies</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dom (BlazorUtils.Dom)</td>
+                <td>0.2</td>
+                <td>
+                    Accessing and modifying DOM elements in the friendly jQuery style.<br />
+                    Please Note that Dom will also include some useful Blazor components in the future.
+                </td>
+                <td>
+                    BlazorUtils.js: >= 0.1<br />
+                    Interface: >= 0.2 with ver 0.1, 0.2<br />
+                    Others: jQuery version: 3.3.1 (Js file only), jQuery UI 1.12.1 (js file and jquery-ui.css), Twitter Bootstrap 4 (css and bundle)
+                </td>
+            </tr>
+            <tr>
+                <td>Cookie (BlazorUtils.Cookie)</td>
+                <td>0.1</td>
+                <td>
+                    Managing cookies in Blazor.
+                </td>
+                <td>
+                    BlazorUtils.js: >= 0.1
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>I'm working on a final list of features for reference, but you can also find parts of them in this page or my progress table <a href="https://tinyurl.com/ycoyy4sd">here</a>. </p>
+
+    <h2>II. Blazor Utils project structure</h2>
+    <p>Your wwwroot should be similar to this: </p>
+    <h3>CSS</h3>
+    <ol>
+        <li>bootstrap.min.css</li>
+        <li>jquery-ui.css</li>
+        <li>...</li>
+    </ol>
+    <h3>Js</h3>
+    <ol>
+        <li>BlazorUtils.0.1.js</li>
+        <li>bootstrap.bundle.min.js</li>
+        <li>jquery-3.3.1.min.js</li>
+        <li>jquery-ui.min.js</li>
+        <li>...</li>
+    </ol>
+    <p>And file's content structure: </p>
+    <h3>_ViewImports.cshtml includes</h3>
+    <ol>
+        <li>@@using static BlazorUtils.Dom.DomUtil</li>
+        <li>@@using static BlazorUtils.Cookie.Cookies</li>
+        <li>@@using BlazorUtils.Interfaces.EventArgs</li>
+        <li>...</li>
+    </ol>
+    <h3>wwwroot/index.html includes (in orders)</h3>
+    <ol>
+        <li>@("<link href=\"css/jquery-ui.css\" rel=\"stylesheet\" />")</li>
+        <li>@("<link href=\"css/bootstrap.min.css\" rel=\"stylesheet\" />")</li>
+        <li>@("<link href=\"css/site.css\" rel=\"stylesheet\" />")</li>
+        <li>@("<script type=\"text/javascript\" src=\"js/jquery-3.3.1.min.js\"></script>")</li>
+        <li>@("<script type=\"text/javascript\" src=\"js/jquery-ui.min.js\"></script>")</li>
+        <li>@("<script type=\"text/javascript\" src=\"js/bootstrap.bundle.min.js\"></script>")</li>
+        <li>@("<script type=\"text/javascript\" src=\"js/BlazorUtils.0.1.js\"></script>")</li>
+        <li>...</li>
+    </ol>
+
+    <h2>III. APIs in action!</h2>
+    <p>We can separate features into 4 groups:</p>
+    <h3>1. Behaviours attributes</h3>
+    <p>Behaviours attributes change element's behaviours (draggable, resizable, readonly,...) without touching Js or C# codes</p>
+    <p>Below is an image with lmt-drag and lmt-tip:</p>
+    <img style="width: 300px; height: 300px" src="http://www.planwallpaper.com/static/images/sO0mRdKW.jpeg" lmt-drag lmt-tip="Please drag me!" />
+    <p>After checking OnAfterRenderAsync() override method, you might notice I have called LMTBehaviours() at the first line. This is because an element can be rendered at anytime in Blazor. LMTBehaviours will apply behaviours only when you call it. Moreover, you will need to call this method again if any element with these attributes appears later.</p>
+    <p>0.1 and 0.2 supports some others:</p>
+    <table>
+        <thead>
+            <tr>
+                <td>Attributes</td>
+                <td>Value</td>
+                <td>Description</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>lmt-drag</td>
+                <td>(No)</td>
+                <td>Allow an element to be draggable.</td>
+            </tr>
+            <tr>
+                <td>lmt-resize</td>
+                <td>(No)</td>
+                <td>Allow an element to be resizable.</td>
+            </tr>
+            <tr>
+                <td>lmt-select</td>
+                <td>(No)</td>
+                <td>Allow an element (or group of elements) to be selectable. Hold ctrl key to select multiple items.</td>
+            </tr>
+            <tr>
+                <td>lmt-sort</td>
+                <td>(No)</td>
+                <td>Allow a group of DOM elements to be sortable.</td>
+            </tr>
+            <tr>
+                <td>lmt-readonly</td>
+                <td>Tooltip text</td>
+                <td>Set an element to readonly and show a tooltip when an element is focused.</td>
+            </tr>
+            <tr>
+                <td>lmt-val-guid</td>
+                <td>(No)</td>
+                <td>Set value attribute to a random GUID string.</td>
+            </tr>
+            <tr>
+                <td>lmt-val-num</td>
+                <td>A string containing minimum and maximum number, separated by a comma.</td>
+                <td>Set value attribute to a random integer x. x is larger or equal minimum number, and smaller or equal maximum one.</td>
+            </tr>
+            <tr>
+                <td>lmt-accord</td>
+                <td>(No)</td>
+                <td>Displays collapsible content panels for presenting information in a limited amount of space. Element with this lmt-accord should contains a header and a div as body for each section.</td>
+            </tr>
+            <tr>
+                <td>lmt-autocomp</td>
+                <td>A string containing all keywords, separated by commas (without space next to it). Example: C,C++,C#</td>
+                <td>Allow an element to show autocomplete box when being edited/typed in.</td>
+            </tr>
+            <tr>
+                <td>lmt-date</td>
+                <td>(No)</td>
+                <td>Allow an element to show a popup calendar for convenience.</td>
+            </tr>
+            <tr>
+                <td>lmt-dialog</td>
+                <td>(No)</td>
+                <td>Show an element as dialog.</td>
+            </tr>
+            <tr>
+                <td>lmt-tip</td>
+                <td>Tooltip text</td>
+                <td>Allow an element to show tooltip when being hovered.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<LMTPagination />
+
+@functions{
+    protected override Task OnAfterRenderAsync()
+    {
+        LMTBehaviours();
+        _("body").Css("padding", "0 220px 0 220px");
+
+        _(".Index table *").Css("border-style", "solid")
+            .Css("border-width", "1px")
+            .Css("border-color", "gray");
+
+        _(".Index table thead").Css("text-align", "center")
+            .Css("font-weight", "bold");
+
+        _(".Index table thead td").Css("padding", "0 10px 0 10px");
+        _(".Index p").Css("font-size", "19px");
+
+        return base.OnAfterRenderAsync();
+    }
+}
