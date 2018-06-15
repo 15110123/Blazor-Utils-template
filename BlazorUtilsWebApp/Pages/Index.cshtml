@@ -106,7 +106,7 @@
             <tr>
                 <td>lmt-resize</td>
                 <td>(No)</td>
-                <td>Allow an element to be resizable.</td>
+                <td>Allow an element to be resizable. This should be use for container tag (div, span) only. Place others into container tags, with 100% width and height to make other tag resizable.</td>
             </tr>
             <tr>
                 <td>lmt-select</td>
@@ -171,7 +171,9 @@
     <br/>
     <h3>3. Pure Js</h3>
     <p>Blazor dev team has promised that they will provide native global DOM objects to you shortly. As a result, I won't focus on pure Js functions. Right now, Eval(), which execute Js script, is the only method you could use.</p>
-    <textarea lmt-tip="Enter Js script here" id="JsTextArea"></textarea><br/>
+    <div id="JsTextAreaContainer" lmt-resize>
+        <textarea lmt-tip="Enter Js script here" id="JsTextArea"></textarea>
+    </div>
     <button onclick=@(() => { Eval(_("#JsTextArea").Val()); })>Run code!</button>
     <br/>
     <h3>4. jQuery</h3>
@@ -193,7 +195,6 @@
     protected override async Task OnAfterRenderAsync()
     {
         if (IsSetCss) return;
-        LMTBehaviours();
 
         #region Below in jQuery:
         //$("body").css("padding", "0 220px 0 220px");
@@ -224,9 +225,14 @@
         _(".Index table thead td").Css("padding", "0 10px 0 10px");
         _(".Index p, .Index table").Css("font-size", "19px");
 
-        _("#JsTextArea").Css("width", "500px")
+        _("#JsTextAreaContainer").Css("display", "block")
+            .Css("width", "500px")
             .Css("height", "200px");
 
+        _("#JsTextArea").Css("width", "100%")
+            .Css("height", "100%");
+
+        LMTBehaviours();
         IsSetCss = true;
     }
 
