@@ -88,78 +88,7 @@
     <p>Below is an image with lmt-drag and lmt-tip:</p>
     <img style="width: 300px; height: 300px" src="http://www.planwallpaper.com/static/images/sO0mRdKW.jpeg" lmt-drag lmt-tip="Please drag me!" />
     <p>After checking OnAfterRenderAsync() override method, you might notice I have called LMTBehaviours() at the first line. This is because an element can be rendered at anytime in Blazor. LMTBehaviours will apply behaviours only when you call it. Moreover, you will need to call this method again if any element with these attributes appears later.</p>
-    <p>0.1 and 0.2 supports some others:</p>
-    <table>
-        <thead>
-            <tr>
-                <td>Attributes</td>
-                <td>Value</td>
-                <td>Description</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>lmt-drag</td>
-                <td>(No)</td>
-                <td>Allow an element to be draggable.</td>
-            </tr>
-            <tr>
-                <td>lmt-resize</td>
-                <td>(No)</td>
-                <td>Allow an element to be resizable. This should be use for container tag (div, span) only. Place others into container tags, with 100% width and height to make other tag resizable.</td>
-            </tr>
-            <tr>
-                <td>lmt-select</td>
-                <td>(No)</td>
-                <td>Allow an element (or group of elements) to be selectable. Hold ctrl key to select multiple items.</td>
-            </tr>
-            <tr>
-                <td>lmt-sort</td>
-                <td>(No)</td>
-                <td>Allow a group of DOM elements to be sortable.</td>
-            </tr>
-            <tr>
-                <td>lmt-readonly</td>
-                <td>Tooltip text</td>
-                <td>Set an element to readonly and show a tooltip when an element is focused.</td>
-            </tr>
-            <tr>
-                <td>lmt-val-guid</td>
-                <td>(No)</td>
-                <td>Set value attribute to a random GUID string.</td>
-            </tr>
-            <tr>
-                <td>lmt-val-num</td>
-                <td>A string containing minimum and maximum number, separated by a comma.</td>
-                <td>Set value attribute to a random integer x. x is larger or equal minimum number, and smaller or equal maximum one.</td>
-            </tr>
-            <tr>
-                <td>lmt-accord</td>
-                <td>(No)</td>
-                <td>Displays collapsible content panels for presenting information in a limited amount of space. Element with this lmt-accord should contains a header and a div as body for each section.</td>
-            </tr>
-            <tr>
-                <td>lmt-autocomp</td>
-                <td>A string containing all keywords, separated by commas (without space next to it). Example: C,C++,C#</td>
-                <td>Allow an element to show autocomplete box when being edited/typed in.</td>
-            </tr>
-            <tr>
-                <td>lmt-date</td>
-                <td>(No)</td>
-                <td>Allow an element to show a popup calendar for convenience.</td>
-            </tr>
-            <tr>
-                <td>lmt-dialog</td>
-                <td>(No)</td>
-                <td>Show an element as dialog.</td>
-            </tr>
-            <tr>
-                <td>lmt-tip</td>
-                <td>Tooltip text</td>
-                <td>Allow an element to show tooltip when being hovered.</td>
-            </tr>
-        </tbody>
-    </table>
+    <p>0.1 and 0.2 supports some others. Check <a href="https://lmt.azurewebsites.net/" target="_blank">here</a> for more details.</p>
     <br/>
     <h3>2. Blazor components</h3>
     <p>Some components are so popular that not many of us like to rewrite its' logical code again and again. I'm planning to make Bootstrap 4 components into something better, smarter for Blazor.</p>
